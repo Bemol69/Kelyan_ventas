@@ -12,7 +12,7 @@
     "XL"
   ],
   "etiqueta": "Nuevo ingreso",
-  "orden": 10,
-  "agotado": false,
+  "orden": 2,
+  "agotado": true,
   "visible": true
 }
