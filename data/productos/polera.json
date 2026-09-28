@@ -1,0 +1,16 @@
+{
+  "nombre": "Polera",
+  "precio": 15000,
+  "foto": "/img/productos/PoleraNegra.webp",
+  "fotos": [],
+  "descripcion": "Polera negra todas las tallas",
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "etiqueta": "Nuevo",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}
