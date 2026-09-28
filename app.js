@@ -33,6 +33,7 @@ const SORTS = {
   'precio-desc': (a, b) => b.price - a.price,
 };
 const MAX_QTY = 20;
+const PER_PAGE = 12; // productos por página del catálogo
 
 // ===== UTILIDADES =====
 const clp = (n) => '$' + n.toLocaleString('es-CL');
@@ -75,6 +76,7 @@ function lockScroll() {
 const grid = $('#productGrid');
 const filters = $('#filters');
 let currentCat = 'todos';
+let currentPage = 1;
 
 function renderFilters(active) {
   const count = (k) => (k === 'todos' ? PRODUCTS.length : PRODUCTS.filter((p) => p.tags.includes(k)).length);
@@ -106,15 +108,49 @@ const card = (p) => `
       </div>
     </article>`;
 
-function renderProducts(cat = currentCat) {
+function renderProducts(cat = currentCat, page = 1) {
   currentCat = cat;
   let list = cat === 'todos' ? PRODUCTS : PRODUCTS.filter((p) => p.tags.includes(cat));
   const sort = SORTS[$('#sort').value];
   if (sort) list = [...list].sort(sort);
-  $('#count').innerHTML = `Mostrando <strong>${list.length}</strong> ${list.length === 1 ? 'modelo' : 'modelos'}`;
-  grid.innerHTML = list.map(card).join('');
+  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  currentPage = Math.min(Math.max(1, page), pages);
+  const from = (currentPage - 1) * PER_PAGE;
+  const shown = list.slice(from, from + PER_PAGE);
+  $('#count').innerHTML = pages > 1
+    ? `Mostrando <strong>${from + 1}–${from + shown.length}</strong> de <strong>${list.length}</strong> modelos`
+    : `Mostrando <strong>${list.length}</strong> ${list.length === 1 ? 'modelo' : 'modelos'}`;
+  grid.innerHTML = shown.map(card).join('');
   fitAll(grid);
+  renderPager(pages);
 }
+
+// Números de página: 1 … 4 5 6 … 10 (siempre la primera, la última y las vecinas de la actual)
+function renderPager(pages) {
+  const pager = $('#pager');
+  pager.hidden = pages < 2;
+  if (pages < 2) { pager.innerHTML = ''; return; }
+  const nums = [];
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1 || i === pages || Math.abs(i - currentPage) <= 1) nums.push(i);
+    else if (nums[nums.length - 1] !== '…') nums.push('…');
+  }
+  const arrow = (to, label, dir) =>
+    `<button type="button" class="pager__btn pager__arrow" data-page="${to}" aria-label="${label}"${to < 1 || to > pages ? ' disabled' : ''}>${dir}</button>`;
+  pager.innerHTML =
+    arrow(currentPage - 1, 'Página anterior', '‹') +
+    nums.map((n) => n === '…'
+      ? '<span class="pager__gap" aria-hidden="true">…</span>'
+      : `<button type="button" class="pager__btn${n === currentPage ? ' is-active' : ''}" data-page="${n}"${n === currentPage ? ' aria-current="page"' : ''} aria-label="Página ${n}">${n}</button>`).join('') +
+    arrow(currentPage + 1, 'Página siguiente', '›');
+}
+
+$('#pager').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-page]');
+  if (!btn || btn.disabled) return;
+  renderProducts(currentCat, +btn.dataset.page);
+  $('#filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
 filters.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-cat]');

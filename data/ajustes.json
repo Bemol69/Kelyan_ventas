@@ -8,7 +8,9 @@
   "region": "Región Metropolitana",
   "envios": "Envíos a todo Chile",
   "empresas_envio": [
-    "Starken"
+    "Starken",
+    "Chilexpress",
+    "Blue Express"
   ],
   "horario_dias": "",
   "hora_abre": "",
