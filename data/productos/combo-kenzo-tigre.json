@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Kenzo · Tigre azul",
+  "precio": 35000,
+  "foto": "/img/productos/combo-kenzo-tigre.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Kenzo Paris con el clásico tigre en tonos azules + short de mezclilla azul M.Star Urban rasgado.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 40,
+  "agotado": false,
+  "visible": true
+}

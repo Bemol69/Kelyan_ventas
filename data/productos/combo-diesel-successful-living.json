@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Diesel · For Successful Living",
+  "precio": 35000,
+  "foto": "/img/productos/combo-diesel-successful-living.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Diesel con parche azul «For Successful Living» + short de mezclilla negro Purple con rasgados y basta deshilachada.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "Nuevo ingreso",
+  "orden": 10,
+  "agotado": false,
+  "visible": true
+}

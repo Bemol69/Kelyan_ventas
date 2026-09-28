@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Karl Lagerfeld · Ikonik",
+  "precio": 35000,
+  "foto": "/img/productos/combo-karl-lagerfeld.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Karl Lagerfeld con el personaje Ikonik + short Purple negro con rasgados y salpicado de pintura.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "Nuevo ingreso",
+  "orden": 20,
+  "agotado": false,
+  "visible": true
+}

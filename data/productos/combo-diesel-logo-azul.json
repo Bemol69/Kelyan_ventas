@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Diesel · Logo azul",
+  "precio": 35000,
+  "foto": "/img/productos/combo-diesel-logo-azul.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Diesel con logo azul de mezclilla bordado + short Purple negro con rasgados y salpicado.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 50,
+  "agotado": false,
+  "visible": true
+}

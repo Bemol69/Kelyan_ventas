@@ -1,0 +1,16 @@
+{
+  "nombre": "Bomber Emporio Armani · Milano",
+  "precio": 25000,
+  "foto": "/img/productos/bomber-emporio-armani-milano.jpg",
+  "fotos": [],
+  "descripcion": "Bomber negra con mangas de cuero sintético y águila dorada. En la espalda: Milano Emporio Armani Since 1981.",
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "etiqueta": "Black & gold",
+  "orden": 100,
+  "agotado": false,
+  "visible": true
+}

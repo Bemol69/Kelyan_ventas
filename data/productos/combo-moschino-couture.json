@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Moschino Couture",
+  "precio": 35000,
+  "foto": "/img/productos/combo-moschino-couture.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Moschino Couture! con letras celestes y dorado + short Purple negro rasgado.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 30,
+  "agotado": false,
+  "visible": true
+}

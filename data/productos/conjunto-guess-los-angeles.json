@@ -1,0 +1,18 @@
+{
+  "nombre": "Conjunto Guess Los Angeles",
+  "precio": 40000,
+  "foto": "/img/productos/conjunto-guess-los-angeles.jpg",
+  "fotos": [],
+  "descripcion": "Polera y short de buzo negros Guess Los Angeles con logo dorado.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "Black & gold",
+  "orden": 90,
+  "agotado": false,
+  "visible": true
+}

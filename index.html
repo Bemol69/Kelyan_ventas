@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%%SEO_TITULO%%</title>
+  <meta name="description" content="%%SEO_DESCRIPCION%%">
+  <meta name="theme-color" content="%%COLOR_FONDO%%">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/img/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <!-- SEO:HEAD (lo completa scripts/build.mjs: canonical, Open Graph y datos estructurados) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="%%FUENTES_URL%%" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Iconos de línea (estilo Lucide) + degradado dorado para los adornos -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#FBE9A6"/><stop offset=".45" stop-color="#D4AF37"/><stop offset="1" stop-color="#8C6A1A"/>
+      </linearGradient>
+      <symbol id="i-crown-fill" viewBox="0 0 64 44"><path d="M4 12l14 12L32 2l14 22 14-12-6 26H10z"/><rect x="10" y="40" width="44" height="4" rx="1"/><circle cx="4" cy="11" r="3.2"/><circle cx="32" cy="3" r="3.2"/><circle cx="60" cy="11" r="3.2"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12M7.5 4.27l9 5.15"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+      <symbol id="i-train" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="3"/><path d="M4 11h16M8 21l2-4M16 21l-2-4"/><circle cx="8.5" cy="14" r=".6"/><circle cx="15.5" cy="14" r=".6"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+      <symbol id="i-ig" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+      <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+      <symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.28-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.8a1 1 0 0 1-.96-.73L2.01 6.02a.5.5 0 0 1 .8-.52l4.28 3.66a1 1 0 0 0 1.52-.3zM5 21h14"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9 4.5 4h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="#" class="brand" aria-label="%%NOMBRE%%, ir al inicio">
+        <img src="img/logo.jpg" alt="">
+        <span class="brand__name">%%MARCA_A%%<em>%%MARCA_B%%</em></span>
+      </a>
+      <nav class="nav__links">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#reels">Así trabajamos</a>
+        <a href="#comprar">Cómo comprar</a>
+        <a href="#confianza">Por qué Kelyan</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="nav__actions">
+        <!-- SI:INSTAGRAM --><a class="icon-btn" href="https://www.instagram.com/%%INSTAGRAM%%/" target="_blank" rel="noopener" aria-label="Instagram de %%NOMBRE%%" title="Instagram">
+          <svg class="ic"><use href="#i-ig"/></svg>
+        </a><!-- /SI:INSTAGRAM -->
+        <button class="bag-btn" type="button" data-open-bag aria-label="Abrir mi bolsa">
+          <svg class="ic"><use href="#i-bag"/></svg><span class="bag-btn__label">Bolsa</span>
+          <span class="bag-btn__n" id="bagCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- PORTADA -->
+    <section class="hero marble">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow"><svg class="crown-mini" aria-hidden="true"><use href="#i-crown-fill"/></svg> Premium style · %%CIUDAD%%</p>
+          <h1>%%HERO_TITULO%% <em>%%HERO_DESTACADO%%</em></h1>
+          <p class="lead">%%HERO_BAJADA%%</p>
+          <div class="hero__cta">
+            <a href="#catalogo" class="btn btn--primary">Ver catálogo <svg class="ic"><use href="#i-arrow"/></svg></a>
+            <a href="#reels" class="btn btn--ghost"><svg class="ic"><use href="#i-play"/></svg> Así trabajamos</a>
+          </div>
+          <dl class="stats">
+            <div><dt>+6.300</dt><dd>seguidores en IG</dd></div>
+            <div><dt>XS–XL</dt><dd>todas las tallas</dd></div>
+            <div><dt>Chile</dt><dd>envíos a todo el país</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero__art">
+          <div class="arch">
+            <img src="%%HERO_1%%" alt="%%HERO_1_ALT%%" fetchpriority="high">
+          </div>
+          <img class="hero__oval hero__oval--a" src="%%HERO_2%%" alt="%%HERO_2_ALT%%">
+          <img class="hero__oval hero__oval--b" src="%%HERO_3%%" alt="%%HERO_3_ALT%%">
+          <div class="seal" aria-hidden="true">
+            <svg class="seal__ring" viewBox="0 0 200 200">
+              <path id="seal-path" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" fill="none"/>
+              <text><textPath href="#seal-path">KELYAN VENTAS ✦ PREMIUM STYLE ✦ ENVÍOS A TODO CHILE ✦</textPath></text>
+            </svg>
+            <img src="%%LOGO%%" alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRANJA 1 -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" style="--dur: %%FRANJA1_SEG%%s"><!-- FRANJA1 --></div>
+    </div>
+
+    <!-- CATÁLOGO -->
+    <section id="catalogo" class="section">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow"><svg class="crown-mini" aria-hidden="true"><use href="#i-crown-fill"/></svg> Nuevos ingresos</p>
+          <h2>Catálogo</h2>
+          <p class="muted">Lo último que llegó a la tienda: combos de polera + short, conjuntos y polerones de las marcas más top. ¿Buscas otro modelo o talla? Escríbenos y te lo conseguimos.</p>
+        </div>
+        <div class="catalog-bar">
+          <div class="filters" id="filters" role="tablist" aria-label="Categorías"></div>
+        </div>
+        <div class="toolbar">
+          <span id="count"></span>
+          <label class="sort">
+            <span>Ordenar por</span>
+            <select id="sort">
+              <option value="destacados">Destacados</option>
+              <option value="precio-asc">Menor precio</option>
+              <option value="precio-desc">Mayor precio</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid" id="productGrid"><!-- SEO:PRODUCTOS --></div>
+        <div class="center">
+          <button class="btn btn--ghost" type="button" data-encargo>¿Buscas otro modelo o talla? Haz tu encargo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRANJA 2: cintas cruzadas -->
+    <div class="tapes" aria-hidden="true">
+      <div class="tape tape--back"><div class="tape__track" style="--dur: %%FRANJA2_SEG%%s"><!-- FRANJA2 --></div></div>
+      <div class="tape tape--front"><div class="tape__track" style="--dur: %%FRANJA2_SEG%%s"><!-- FRANJA2 --></div></div>
+    </div>
+
+    <!-- REELS E IMÁGENES (editables en /admin → Reels e imágenes) -->
+    <section id="reels" class="section section--alt marble">
+      <div class="container">
+        <div class="section__head section__head--center reveal">
+          <p class="eyebrow"><svg class="crown-mini" aria-hidden="true"><use href="#i-crown-fill"/></svg> Directo desde el Instagram</p>
+          <h2>Así trabajamos</h2>
+          <p class="muted">Stock real, prendas con etiqueta y entregas todos los días. Lo que ves es lo que te llega.</p>
+        </div>
+        <div class="reels">
+          <!-- REELS:LISTA (las escribe scripts/build.mjs desde data/reels.json) -->
+        </div>
+        <!-- SI:INSTAGRAM --><div class="center">
+          <a class="btn btn--ghost" href="https://www.instagram.com/%%INSTAGRAM%%/" target="_blank" rel="noopener"><svg class="ic"><use href="#i-ig"/></svg> Ver clientes y envíos en @%%INSTAGRAM%%</a>
+        </div><!-- /SI:INSTAGRAM -->
+      </div>
+    </section>
+
+    <!-- CÓMO COMPRAR -->
+    <section id="comprar" class="section">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow"><svg class="crown-mini" aria-hidden="true"><use href="#i-crown-fill"/></svg> Cómo comprar</p>
+          <h2>Tu pedido en 3 pasos</h2>
+          <p class="muted">Arma tu bolsa en la web y el pedido te llega listo por WhatsApp. Te confirmamos stock y coordinamos la entrega.</p>
+        </div>
+        <div class="steps">
+          <div class="step reveal"><span class="step__n">I</span><h3>Elige tu outfit</h3><p>Agrega tus prendas y talla a la bolsa, o escríbenos el modelo que buscas y te lo conseguimos.</p></div>
+          <div class="step reveal"><span class="step__n">II</span><h3>Envía tu pedido</h3><p>Se abre WhatsApp con tu pedido escrito. Te confirmamos stock, talla y el total.</p></div>
+          <div class="step reveal"><span class="step__n">III</span><h3>Recíbelo</h3><p>En %%PUNTO%%, por delivery en Santiago o con envío a todo Chile.</p></div>
+        </div>
+        <div class="info-grid">
+          <article class="panel reveal">
+            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-train"/></svg></span><div><h3>Entrega presencial</h3><p>%%PUNTO%%</p></div></header>
+            <p class="muted">Agendamos día y hora contigo por WhatsApp. Revisas tu prenda en mano y pagas ahí mismo.</p>
+          </article>
+          <article class="panel reveal">
+            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-truck"/></svg></span><div><h3>Delivery</h3><p>Todo Santiago</p></div></header>
+            <p class="muted">Te lo llevamos a tu casa. El valor depende de tu comuna y lo coordinamos por WhatsApp.</p>
+          </article>
+          <article class="panel reveal">
+            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-box"/></svg></span><div><h3>%%ENVIOS%%</h3><p>%%EMPRESAS%% · por pagar</p></div></header>
+            <p class="muted">Despachamos a cualquier ciudad de Chile y te mandamos el número de seguimiento. El envío lo pagas al retirar.</p>
+          </article>
+          <article class="panel panel--gold reveal">
+            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-info"/></svg></span><div><h3>Importante</h3><p>Antes de confirmar</p></div></header>
+            <p class="muted">Revisa bien tu talla y pregúntanos todo lo que necesites antes de comprar. Respondemos solo por WhatsApp.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- POR QUÉ ELEGIRNOS -->
+    <section id="confianza" class="section section--alt">
+      <div class="container">
+        <div class="section__head section__head--center reveal">
+          <p class="eyebrow"><svg class="crown-mini" aria-hidden="true"><use href="#i-crown-fill"/></svg> Compra tranquilo</p>
+          <h2>Por qué Kelyan</h2>
+        </div>
+        <div class="trust-grid">
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-crown"/></svg></span><h3>Marcas top</h3><p>Diesel, Moschino, Kenzo, EA7, Karl Lagerfeld, Guess, Psycho Bunny, Armani y más.</p></article>
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-bolt"/></svg></span><h3>Entrega inmediata</h3><p>Todo el catálogo está en stock y listo para entregar, sin esperas.</p></article>
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-ruler"/></svg></span><h3>Todas las tallas</h3><p>Poleras y conjuntos de XS a XL. Si no está tu talla, pregúntanos.</p></article>
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span><h3>Envíos a todo Chile</h3><p>Compra desde donde estés: despachamos por %%EMPRESAS%%.</p></article>
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span><h3>Compra segura</h3><p>Pagas en mano en la entrega presencial y te confirmamos todo por WhatsApp.</p></article>
+          <article class="trust reveal"><span class="tile"><svg class="ic"><use href="#i-users"/></svg></span><h3>Clientes reales</h3><p>Entregas y envíos publicados en nuestras historias destacadas de Instagram.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section">
+      <div class="container">
+        <div class="cta-band marble reveal">
+          <svg class="cta-band__crown" aria-hidden="true"><use href="#i-crown-fill"/></svg>
+          <div>
+            <p class="eyebrow">Hablemos</p>
+            <h2>Haz tu <em>pedido</em></h2>
+            <p class="lead">Escríbenos por WhatsApp y te respondemos con stock, tallas y precios. Rápido, fácil y seguro.</p>
+          </div>
+          <a class="btn btn--whatsapp btn--lg" id="contactWaBtn" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Escríbenos por WhatsApp</a>
+        </div>
+        <ul class="contact-list">
+          <li><span class="tile tile--sm"><svg class="ic"><use href="#i-chat"/></svg></span><div><small>WhatsApp</small><a id="contactWa" target="_blank" rel="noopener">Pedidos y consultas</a></div></li>
+          <!-- SI:INSTAGRAM --><li><span class="tile tile--sm"><svg class="ic"><use href="#i-ig"/></svg></span><div><small>Instagram</small><a href="https://www.instagram.com/%%INSTAGRAM%%/" target="_blank" rel="noopener">@%%INSTAGRAM%%</a></div></li><!-- /SI:INSTAGRAM -->
+          <li><span class="tile tile--sm"><svg class="ic"><use href="#i-pin"/></svg></span><div><small>Entregas</small><span class="val">%%PUNTO%%</span></div></li>
+          <!-- SI:HORARIO --><li><span class="tile tile--sm"><svg class="ic"><use href="#i-star"/></svg></span><div><small>Horario</small><span class="val">%%HORARIO%%</span></div></li><!-- /SI:HORARIO -->
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="brand">
+        <img src="img/logo.jpg" alt="">
+        <span class="brand__name">%%MARCA_A%%<em>%%MARCA_B%%</em></span>
+      </div>
+      <p>%%RUBRO%% · %%PUNTO%% · %%ENVIOS%%</p>
+      <a class="btn btn--whatsapp btn--sm" id="footerWa" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </footer>
+
+  <a class="wa-float" id="floatWa" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg class="ic"><use href="#i-chat"/></svg></a>
+
+  <!-- FICHA DE PRODUCTO -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel pm" role="dialog" aria-modal="true" aria-labelledby="pmName">
+      <button class="modal__close" type="button" data-close aria-label="Cerrar">×</button>
+      <div class="pm__media">
+        <div class="pm__frame">
+          <img id="pmImg" src="img/logo.jpg" alt="">
+          <button class="pm__nav pm__nav--prev" type="button" data-step-photo="-1" aria-label="Foto anterior">‹</button>
+          <button class="pm__nav pm__nav--next" type="button" data-step-photo="1" aria-label="Foto siguiente">›</button>
+        </div>
+        <div class="pm__thumbs" id="pmThumbs"></div>
+      </div>
+      <div class="pm__info">
+        <p class="eyebrow" id="pmCat"></p>
+        <h2 id="pmName"></h2>
+        <p class="pm__price" id="pmPrice"></p>
+        <p class="pm__desc" id="pmDesc"></p>
+        <div id="pmSizesWrap">
+          <p class="pm__label">Talla <span id="pmSizeHint"></span></p>
+          <div class="pm__sizes" id="pmSizes" role="radiogroup" aria-label="Elige tu talla"></div>
+        </div>
+        <div class="pm__qty">
+          <p class="pm__label">Cantidad</p>
+          <div class="qty qty--lg">
+            <button type="button" data-qty="-1" aria-label="Menos">−</button>
+            <span id="pmQty">1</span>
+            <button type="button" data-qty="1" aria-label="Más">+</button>
+          </div>
+        </div>
+        <p class="form__error" id="pmError" hidden></p>
+        <button class="btn btn--primary btn--block btn--lg" type="button" id="pmAdd"><svg class="ic"><use href="#i-bag"/></svg> Agregar a la bolsa</button>
+        <a class="btn btn--ghost btn--block" id="pmAsk" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Consultar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOLSA + PEDIDO -->
+  <aside class="bag" id="bag" aria-hidden="true">
+    <div class="bag__backdrop" data-close-bag></div>
+    <div class="bag__panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
+      <header class="bag__head">
+        <h2 id="bagTitle">Tu pedido</h2>
+        <button class="modal__close" type="button" data-close-bag aria-label="Cerrar">×</button>
+      </header>
+      <div class="bag__body">
+        <div class="bag__empty" id="bagEmpty">
+          <svg class="ic"><use href="#i-bag"/></svg>
+          <p>Tu bolsa está vacía. Agrega productos del catálogo o escribe tu encargo aquí abajo.</p>
+          <a class="btn btn--ghost btn--sm" href="#catalogo" data-close-bag>Ver catálogo</a>
+        </div>
+        <ul class="bag__list" id="bagList"></ul>
+
+        <form id="orderForm" class="checkout" novalidate>
+          <details class="encargo" id="encargoBox">
+            <summary>¿Buscas otro modelo o talla? <strong>Encárgalo</strong></summary>
+            <textarea id="fEncargo" rows="2" placeholder="Ej: Conjunto Lacoste negro talla M · Polera Versace S"></textarea>
+          </details>
+
+          <p class="checkout__step"><span>1</span> Tus datos</p>
+          <label>Nombre y apellido
+            <input id="fNombre" type="text" autocomplete="name" placeholder="Ej: Matías Soto">
+          </label>
+
+          <p class="checkout__step"><span>2</span> Entrega</p>
+          <div class="seg seg--3" role="radiogroup" aria-label="Tipo de entrega">
+            <label><input type="radio" name="entrega" value="punto" checked><span><svg class="ic"><use href="#i-train"/></svg>%%PUNTO%%</span></label>
+            <label><input type="radio" name="entrega" value="delivery"><span><svg class="ic"><use href="#i-home"/></svg>Delivery Santiago</span></label>
+            <label><input type="radio" name="entrega" value="envio"><span><svg class="ic"><use href="#i-truck"/></svg>Envío a Chile</span></label>
+          </div>
+
+          <label data-sector hidden>Comuna para el delivery
+            <input id="fSector" type="text" placeholder="Ej: La Florida, Maipú, Ñuñoa…">
+          </label>
+
+          <div class="ship" data-envio hidden>
+            <div class="row">
+              <label>Región
+                <select id="fRegion"><option value="">Elige tu región</option></select>
+              </label>
+              <label>Comuna
+                <select id="fComuna" disabled><option value="">Primero la región</option></select>
+              </label>
+            </div>
+            <p class="pm__label">Empresa de envío</p>
+            <div class="seg couriers" id="fCourier" role="radiogroup" aria-label="Empresa de envío"></div>
+            <div class="seg seg--2" role="radiogroup" aria-label="Modalidad de envío">
+              <label><input type="radio" name="modo" value="sucursal" checked><span><svg class="ic"><use href="#i-store"/></svg>Retiro en sucursal</span></label>
+              <label><input type="radio" name="modo" value="domicilio"><span><svg class="ic"><use href="#i-home"/></svg>A domicilio</span></label>
+            </div>
+            <label data-modo="sucursal">Sucursal donde retiras
+              <input id="fSucursal" type="text" placeholder="Nombre o dirección de la sucursal">
+            </label>
+            <a class="locator" id="fLocator" data-modo="sucursal" target="_blank" rel="noopener"></a>
+            <label data-modo="domicilio" hidden>Dirección de entrega
+              <input id="fDireccion" type="text" autocomplete="street-address" placeholder="Calle, número, depto">
+            </label>
+          </div>
+
+          <p class="checkout__step"><span>3</span> Pago</p>
+          <div class="seg seg--2" role="radiogroup" aria-label="Medio de pago">
+            <label><input type="radio" name="pago" value="transferencia" checked><span>Transferencia</span></label>
+            <label data-local><input type="radio" name="pago" value="efectivo"><span>Efectivo</span></label>
+          </div>
+
+          <label>Comentario <small>(opcional)</small>
+            <input id="fNota" type="text" placeholder="Ej: horario para la entrega, otro color…">
+          </label>
+
+          <div class="preview">
+            <p class="preview__label">Así llegará tu mensaje</p>
+            <div id="msgPreview"></div>
+          </div>
+        </form>
+      </div>
+      <footer class="bag__foot">
+        <div class="bag__total"><span id="bagTotalLabel">Total</span><strong id="bagTotal">$0</strong></div>
+        <p class="bag__hint" id="bagHint"></p>
+        <p class="form__error" id="formError" hidden></p>
+        <button class="btn btn--whatsapp btn--block btn--lg" type="submit" form="orderForm"><svg class="ic"><use href="#i-chat"/></svg> Enviar pedido por WhatsApp</button>
+        <p class="bag__legal">Confirma tu talla antes de pagar. Te respondemos por WhatsApp.</p>
+      </footer>
+    </div>
+  </aside>
+
+  <button class="fab" type="button" data-open-bag hidden><svg class="ic"><use href="#i-bag"/></svg><span id="fabLabel">Mi bolsa</span></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" charset="utf-8"></script>
+</body>
+</html>

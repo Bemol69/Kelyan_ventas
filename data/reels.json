@@ -1,0 +1,22 @@
+{
+  "reels": [
+    {
+      "archivo": "/img/reels/reel-1.jpg",
+      "titulo": "Stock real",
+      "texto": "Todo listo para entregar",
+      "descripcion": "Kelyan en la bodega con el stock de ropa de marca"
+    },
+    {
+      "archivo": "/img/reels/reel-2.jpg",
+      "titulo": "Tallas XS a XL",
+      "texto": "Conjunto Guess Los Angeles",
+      "descripcion": "Conjunto Guess negro con dorado, polera y short"
+    },
+    {
+      "archivo": "/img/reels/reel-3.jpg",
+      "titulo": "Haz tu pedido",
+      "texto": "Rápido, fácil y seguro",
+      "descripcion": "Flyer para hacer pedidos por WhatsApp"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Psycho Bunny",
+  "precio": 35000,
+  "foto": "/img/productos/combo-psycho-bunny.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Psycho Bunny con el conejo en relieve + short M.Star Drip negro con parches deshilachados.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 70,
+  "agotado": false,
+  "visible": true
+}

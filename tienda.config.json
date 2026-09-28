@@ -1,0 +1,33 @@
+{
+  "_ayuda": "Datos fijos de la tienda (los define el desarrollador). Los datos de contacto y portada van en data/ajustes.json, que el cliente edita desde /admin.",
+  "nombre": "Kelyan Ventas",
+  "marca_a": "Kelyan",
+  "marca_b": "ventas",
+  "rubro": "Ropa de marca premium",
+  "schema_tipo": "ClothingStore",
+  "seo_titulo": "Ropa de marca en Puente Alto | Kelyan Ventas · Premium Style",
+  "seo_descripcion": "Poleras, shorts, conjuntos y polerones de marcas top: Diesel, Moschino, Kenzo, EA7, Karl Lagerfeld, Guess y más. Entrega inmediata en Metro Plaza Puente Alto, delivery en Santiago y envíos a todo Chile.",
+  "github_repo": "Bemol69/Kelyan_ventas",
+  "site_url": "https://kelyan-ventas.vercel.app",
+  "google_verificacion": "",
+  "hero": [
+    { "foto": "img/productos/bomber-emporio-armani-milano.jpg", "alt": "Bomber Emporio Armani Milano negra con dorado" },
+    { "foto": "img/productos/combo-moschino-couture.jpg", "alt": "Combo polera Moschino Couture y short Purple" },
+    { "foto": "img/productos/combo-kenzo-tigre.jpg", "alt": "Combo polera Kenzo tigre azul y short de mezclilla" }
+  ],
+  "fuentes": { "titulos": "Cinzel", "texto": "Montserrat", "script": "Great Vibes" },
+  "colores": {
+    "fondo": "#0A0907",
+    "primario": "#D4AF37",
+    "primario_oscuro": "#9C7A1E",
+    "primario_claro": "#221B0B",
+    "secundario": "#F1DFA6",
+    "secundario_claro": "#1C1812",
+    "acento": "#F6D77A",
+    "acento_claro": "#2A2210",
+    "tinta": "#F7F1E1",
+    "tinta_suave": "#AFA48C",
+    "extra": "#E9E2CF",
+    "dorado": "#D4AF37"
+  }
+}

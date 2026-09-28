@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo Diesel · Oval D",
+  "precio": 35000,
+  "foto": "/img/productos/combo-diesel-oval-d.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra Diesel con logo Oval D celeste gastado + short Purple negro con rasgados.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 80,
+  "agotado": false,
+  "visible": true
+}

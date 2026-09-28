@@ -1,0 +1,18 @@
+{
+  "nombre": "Combo EA7 Emporio Armani",
+  "precio": 35000,
+  "foto": "/img/productos/combo-ea7-emporio-armani.jpg",
+  "fotos": [],
+  "descripcion": "Polera negra EA7 Emporio Armani con logo azul y blanco + short Purple negro con salpicado de pintura.",
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "etiqueta": "",
+  "orden": 60,
+  "agotado": false,
+  "visible": true
+}
