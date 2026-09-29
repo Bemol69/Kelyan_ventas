@@ -53,6 +53,9 @@
   "functions": {
     "api/webpay/crear.js": {
       "includeFiles": "data/productos/**"
+    },
+    "api/webpay/comprobante.js": {
+      "includeFiles": "{data/**,img/logo.jpg,tienda.config.json}"
     }
   }
 }

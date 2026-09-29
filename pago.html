@@ -34,6 +34,8 @@
     <defs>
       <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
       <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></symbol>
       <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
     </defs>
   </svg>
@@ -45,6 +47,8 @@
       <p class="pay__msg" id="payMsg">Estamos consultando el resultado en Webpay.</p>
       <dl class="pay__data" id="payData" hidden></dl>
       <div class="pay__actions" id="payActions" hidden>
+        <button class="btn btn--primary btn--block btn--lg" id="payPdf" type="button" hidden><svg class="ic"><use href="#i-file"/></svg> <span>Descargar comprobante (PDF)</span></button>
+        <button class="btn btn--ghost btn--block" id="payShare" type="button" hidden><svg class="ic"><use href="#i-share"/></svg> Compartir comprobante</button>
         <a class="btn btn--whatsapp btn--block btn--lg" id="payWa" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Enviar comprobante por WhatsApp</a>
         <a class="btn btn--ghost btn--block" href="/#catalogo">Volver a la tienda</a>
       </div>
@@ -76,6 +80,49 @@
       $('#payActions').hidden = false;
     }
 
+    // Comprobante en PDF: lo arma el servidor con los datos que confirma Transbank
+    function activarComprobante(token, orden) {
+      const mismo = guardado.orden === orden;
+      const body = JSON.stringify({ token, items: mismo ? guardado.items : [], cliente: mismo ? guardado.cliente : {} });
+      const nombre = `comprobante-${orden}.pdf`;
+      let archivo = null;
+      const obtener = async () => {
+        if (archivo) return archivo;
+        const res = await fetch('/api/webpay/comprobante', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+        if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'No pudimos generar el comprobante.');
+        archivo = new File([await res.blob()], nombre, { type: 'application/pdf' });
+        return archivo;
+      };
+      const pdfBtn = $('#payPdf');
+      const label = pdfBtn.querySelector('span');
+      pdfBtn.hidden = false;
+      pdfBtn.addEventListener('click', async () => {
+        pdfBtn.disabled = true;
+        label.textContent = 'Generando comprobante…';
+        try {
+          const url = URL.createObjectURL(await obtener());
+          const a = Object.assign(document.createElement('a'), { href: url, download: nombre });
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+          label.textContent = 'Comprobante descargado ✓';
+        } catch (e) {
+          label.textContent = e.message;
+        }
+        pdfBtn.disabled = false;
+      });
+      // En el celular se puede mandar el PDF directo a WhatsApp, correo, etc.
+      const prueba = new File([''], nombre, { type: 'application/pdf' });
+      if (navigator.canShare && navigator.canShare({ files: [prueba] })) {
+        const share = $('#payShare');
+        share.hidden = false;
+        share.addEventListener('click', async () => {
+          try { await navigator.share({ files: [await obtener()], title: `Comprobante ${orden}` }); } catch (e) {}
+        });
+      }
+    }
+
     const MOTIVOS = {
       anulado: ['Pago cancelado', 'Cancelaste el pago en Webpay. Tu bolsa sigue guardada: puedes intentarlo de nuevo.'],
       expirado: ['Se acabó el tiempo', 'Pasaron más de 5 minutos en el formulario de Webpay. Tu bolsa sigue guardada.'],
@@ -105,7 +152,8 @@
           try { localStorage.removeItem('kvBag'); } catch (e) {}
           const detalle = guardado.orden === r.orden && guardado.mensaje ? guardado.mensaje.replace(/¡Hola![^\n]*$/, '').trim() + '\n\n' : '';
           const texto = `${detalle}✅ *PAGADO CON WEBPAY*${r.pruebas ? ' _(prueba)_' : ''}\nOrden: ${r.orden}\nMonto: ${clp(r.monto)}\nAutorización: ${r.autorizacion}\n\n¡Hola! Acabo de pagar mi pedido 🙌`;
-          mostrar(true, '¡Pago aprobado!', 'Envíanos el comprobante por WhatsApp para coordinar la entrega.', datos, texto);
+          mostrar(true, '¡Pago aprobado!', 'Descarga tu comprobante y envíanoslo por WhatsApp para coordinar la entrega.', datos, texto);
+          activarComprobante(token, r.orden);
         } else {
           mostrar(false, 'Pago rechazado', 'Tu banco no aprobó el pago. No se hizo ningún cargo; puedes intentarlo con otra tarjeta.', datos);
         }

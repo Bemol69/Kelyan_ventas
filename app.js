@@ -552,7 +552,17 @@ async function pagarWebpay(o) {
     const t = await res.json().catch(() => ({}));
     if (!res.ok || !t.url || !t.token) throw new Error(t.error || 'No pudimos conectar con Webpay.');
     // el detalle del pedido queda en este navegador para armar el mensaje de WhatsApp al volver
-    try { sessionStorage.setItem('kvPago', JSON.stringify({ orden: t.orden, mensaje: buildMessage(o) })); } catch (e) {}
+    const entrega = o.envio
+      ? `Envío por ${o.courier} · ${o.modo === 'domicilio' ? `a domicilio: ${o.direccion}` : `retiro en sucursal: ${o.sucursal}`} · ${o.comuna}, ${o.region}`
+      : ENTREGAS[o.entrega] + (o.entrega === 'delivery' && o.sector ? ` · ${o.sector}` : '');
+    try {
+      sessionStorage.setItem('kvPago', JSON.stringify({
+        orden: t.orden,
+        mensaje: buildMessage(o),
+        items: lines.map((l) => ({ id: l.id, size: l.size, qty: l.qty })),
+        cliente: { nombre: o.nombre, entrega },
+      }));
+    } catch (e) {}
     const f = document.createElement('form');
     f.method = 'POST';
     f.action = t.url;
