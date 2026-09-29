@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Resultado del pago · %%NOMBRE%%</title>
+  <meta name="theme-color" content="%%COLOR_FONDO%%">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="%%FUENTES_URL%%" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .pay { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; }
+    .pay__box { width: min(480px, 100%); background: var(--surface, #14110b); border: 1px solid var(--line); border-radius: 22px; padding: 34px 26px; text-align: center; }
+    .pay__icon { width: 64px; height: 64px; margin: 0 auto 14px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); }
+    .pay__icon .ic { width: 30px; height: 30px; }
+    .pay--ok .pay__icon { color: var(--primary); border-color: var(--primary); }
+    .pay--bad .pay__icon { color: #e0776b; border-color: #e0776b; }
+    .pay h1 { font: 700 26px/1.2 var(--font-title); margin: 0 0 8px; color: var(--accent); }
+    .pay--bad h1 { color: var(--ink); }
+    .pay__msg { color: var(--ink-soft); margin: 0 0 22px; }
+    .pay__data { text-align: left; margin: 0 0 24px; border-top: 1px solid var(--line); }
+    .pay__data div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .pay__data dt { color: var(--ink-soft); }
+    .pay__data dd { margin: 0; font-weight: 600; text-align: right; }
+    .pay__actions { display: grid; gap: 10px; }
+    .pay__demo { margin-top: 18px; font-size: 12px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    </defs>
+  </svg>
+
+  <main class="pay" id="pay">
+    <div class="pay__box">
+      <div class="pay__icon"><svg class="ic"><use href="#i-check"/></svg></div>
+      <h1 id="payTitle">Revisando tu pago…</h1>
+      <p class="pay__msg" id="payMsg">Estamos consultando el resultado en Webpay.</p>
+      <dl class="pay__data" id="payData" hidden></dl>
+      <div class="pay__actions" id="payActions" hidden>
+        <a class="btn btn--whatsapp btn--block btn--lg" id="payWa" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Enviar comprobante por WhatsApp</a>
+        <a class="btn btn--ghost btn--block" href="/#catalogo">Volver a la tienda</a>
+      </div>
+      <p class="pay__demo" id="payDemo" hidden>Pago de prueba en el ambiente de integración de Transbank: no se cobró dinero real.</p>
+    </div>
+  </main>
+
+  <script>
+    const WHATSAPP = '%%WHATSAPP%%';
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const clp = (n) => '$' + Number(n).toLocaleString('es-CL');
+    const wa = (text) => `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(text)}`;
+    const q = new URLSearchParams(location.search);
+    let guardado = {};
+    try { guardado = JSON.parse(sessionStorage.getItem('kvPago') || '{}'); } catch (e) {}
+
+    function mostrar(ok, titulo, msg, datos = [], textoWa = '') {
+      $('#pay').classList.add(ok ? 'pay--ok' : 'pay--bad');
+      document.querySelector('.pay__icon use').setAttribute('href', ok ? '#i-check' : '#i-x');
+      $('#payTitle').textContent = titulo;
+      $('#payMsg').textContent = msg;
+      if (datos.length) {
+        $('#payData').innerHTML = datos.filter(([, v]) => v).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+        $('#payData').hidden = false;
+      }
+      $('#payWa').href = wa(textoWa || 'Hola! Tuve un problema al pagar con Webpay en la tienda.');
+      $('#payWa').lastChild.textContent = ok ? ' Enviar comprobante por WhatsApp' : ' Escríbenos por WhatsApp';
+      $('#payActions').hidden = false;
+    }
+
+    const MOTIVOS = {
+      anulado: ['Pago cancelado', 'Cancelaste el pago en Webpay. Tu bolsa sigue guardada: puedes intentarlo de nuevo.'],
+      expirado: ['Se acabó el tiempo', 'Pasaron más de 5 minutos en el formulario de Webpay. Tu bolsa sigue guardada.'],
+      error: ['No se pudo completar el pago', 'Hubo un problema en el formulario de Webpay. No se hizo ningún cargo.'],
+    };
+
+    (async () => {
+      const token = q.get('token');
+      if (!token) {
+        const [t, m] = MOTIVOS[q.get('estado')] || MOTIVOS.error;
+        mostrar(false, t, m, [['Orden', q.get('orden')]]);
+        return;
+      }
+      try {
+        const res = await fetch('/api/webpay/estado?token=' + encodeURIComponent(token), { cache: 'no-store' });
+        const r = await res.json();
+        if (!res.ok) throw new Error(r.error);
+        $('#payDemo').hidden = !r.pruebas;
+        const datos = [
+          ['Orden', r.orden], ['Monto', clp(r.monto)], ['Tarjeta', r.tarjeta],
+          ['Tipo', r.tipo + (r.cuotas > 1 ? ` · ${r.cuotas} cuotas` : '')],
+          ['Código de autorización', r.autorizacion],
+          ['Fecha', r.fecha && new Date(r.fecha).toLocaleString('es-CL')],
+        ];
+        if (r.aprobado) {
+          // el pedido ya se pagó: se vacía la bolsa
+          try { localStorage.removeItem('kvBag'); } catch (e) {}
+          const detalle = guardado.orden === r.orden && guardado.mensaje ? guardado.mensaje.replace(/¡Hola![^\n]*$/, '').trim() + '\n\n' : '';
+          const texto = `${detalle}✅ *PAGADO CON WEBPAY*${r.pruebas ? ' _(prueba)_' : ''}\nOrden: ${r.orden}\nMonto: ${clp(r.monto)}\nAutorización: ${r.autorizacion}\n\n¡Hola! Acabo de pagar mi pedido 🙌`;
+          mostrar(true, '¡Pago aprobado!', 'Envíanos el comprobante por WhatsApp para coordinar la entrega.', datos, texto);
+        } else {
+          mostrar(false, 'Pago rechazado', 'Tu banco no aprobó el pago. No se hizo ningún cargo; puedes intentarlo con otra tarjeta.', datos);
+        }
+      } catch (e) {
+        mostrar(false, 'No pudimos revisar tu pago', 'Escríbenos por WhatsApp con este código y lo revisamos: ' + token.slice(0, 12));
+      }
+    })();
+  </script>
+</body>
+</html>

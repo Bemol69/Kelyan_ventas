@@ -217,7 +217,7 @@ const VARS = {
   SEO_TITULO, SEO_DESCRIPCION,
   CIUDAD: T.ciudad, REGION: T.region, PUNTO: T.punto, ENVIOS: T.envios,
   EMPRESAS: T.empresas_envio.join(' · '),
-  INSTAGRAM: T.instagram, TIKTOK: T.tiktok, EMAIL: T.email, HORARIO: T.horario,
+  WHATSAPP: T.whatsapp, INSTAGRAM: T.instagram, TIKTOK: T.tiktok, EMAIL: T.email, HORARIO: T.horario,
   HERO_TITULO: T.hero_titulo, HERO_DESTACADO: T.hero_destacado, HERO_BAJADA: T.hero_bajada,
   HERO_1: HERO_OPT[0], HERO_1_ALT: heroAlt(0), HERO_2: HERO_OPT[1], HERO_2_ALT: heroAlt(1), HERO_3: HERO_OPT[2], HERO_3_ALT: heroAlt(2),
   LOGO: LOGO_OPT,
@@ -381,6 +381,9 @@ html = html
   .replace('href="styles.css"', `href="styles.css?v=${version(css)}"`)
   .replace('src="app.js"', `src="app.js?v=${version(js)}"`);
 writeFileSync(join(DIST, 'index.html'), html);
+// Resultado del pago con Webpay (api/webpay/retorno.js redirige aquí)
+writeFileSync(join(DIST, 'pago.html'), render(readFileSync(join(ROOT, 'pago.html'), 'utf8'), 'pago.html', true)
+  .replace('href="styles.css"', `href="styles.css?v=${version(css)}"`));
 writeFileSync(join(DIST, 'styles.css'), css);
 writeFileSync(join(DIST, 'app.js'), js);
 writeFileSync(join(DIST, 'admin', 'config.yml'), render(readFileSync(join(ROOT, 'admin', 'config.yml'), 'utf8'), 'admin/config.yml', false));

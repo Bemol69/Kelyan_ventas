@@ -354,10 +354,12 @@
           </div>
 
           <p class="checkout__step"><span>3</span> Pago</p>
-          <div class="seg seg--2" role="radiogroup" aria-label="Medio de pago">
+          <div class="seg seg--3" id="fPago" role="radiogroup" aria-label="Medio de pago">
             <label><input type="radio" name="pago" value="transferencia" checked><span>Transferencia</span></label>
             <label data-local><input type="radio" name="pago" value="efectivo"><span>Efectivo</span></label>
+            <label><input type="radio" name="pago" value="webpay"><span>Débito / Crédito</span></label>
           </div>
+          <p class="webpay-note" data-webpay hidden><svg class="ic"><use href="#i-shield"/></svg><span>Pagas en Webpay de Transbank. <strong>Modo demo:</strong> no se cobra dinero real.</span></p>
 
           <label>Comentario <small>(opcional)</small>
             <input id="fNota" type="text" placeholder="Ej: horario para la entrega, otro color…">
@@ -373,7 +375,7 @@
         <div class="bag__total"><span id="bagTotalLabel">Total</span><strong id="bagTotal">$0</strong></div>
         <p class="bag__hint" id="bagHint"></p>
         <p class="form__error" id="formError" hidden></p>
-        <button class="btn btn--whatsapp btn--block btn--lg" type="submit" form="orderForm"><svg class="ic"><use href="#i-chat"/></svg> Enviar pedido por WhatsApp</button>
+        <button class="btn btn--whatsapp btn--block btn--lg" id="bagSend" type="submit" form="orderForm"><svg class="ic"><use href="#i-chat"/></svg> <span>Enviar pedido por WhatsApp</span></button>
         <p class="bag__legal">Confirma tu talla antes de pagar. Te respondemos por WhatsApp.</p>
       </footer>
     </div>

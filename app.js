@@ -11,6 +11,7 @@ const ENTREGAS = {
 const PAGOS = {
   transferencia: '🏦 *Pago:* Transferencia',
   efectivo: '💵 *Pago:* Efectivo al recibir',
+  webpay: '💳 *Pago:* Webpay (débito o crédito)',
 };
 
 // Buscadores oficiales de sucursales (ninguna de las 3 empresas tiene una API pública sin contrato)
@@ -469,7 +470,16 @@ function updateOrder() {
   document.querySelectorAll('[data-sector]').forEach((el) => { el.hidden = o.entrega !== 'delivery'; });
   document.querySelectorAll('[data-modo]').forEach((el) => { el.hidden = el.dataset.modo !== o.modo; });
   // efectivo solo se puede en entregas presenciales
-  if (o.envio && o.pago === 'efectivo') form.querySelector('input[name="pago"][value="transferencia"]').checked = true;
+  if (o.envio && o.pago === 'efectivo') { form.querySelector('input[name="pago"][value="transferencia"]').checked = true; o.pago = 'transferencia'; }
+  const pagoSeg = $('#fPago');
+  pagoSeg.style.setProperty('--n', [...pagoSeg.children].filter((l) => !l.hidden).length);
+  const webpay = o.pago === 'webpay';
+  document.querySelectorAll('[data-webpay]').forEach((el) => { el.hidden = !webpay; });
+  const send = $('#bagSend');
+  send.classList.toggle('btn--whatsapp', !webpay);
+  send.classList.toggle('btn--primary', webpay);
+  send.querySelector('use').setAttribute('href', webpay ? '#i-shield' : '#i-chat');
+  send.querySelector('span').textContent = webpay ? `Pagar ${lines.length && !aCotizar() ? clp(bagTotal()) + ' ' : ''}con Webpay` : 'Enviar pedido por WhatsApp';
 
   const loc = $('#fLocator');
   loc.hidden = o.modo !== 'sucursal' || !COURIERS[o.courier];
@@ -511,10 +521,51 @@ form.addEventListener('submit', (e) => {
     return;
   }
   err.hidden = true;
+  if (o.pago === 'webpay') { pagarWebpay(o); return; }
   window.open(waUrl(buildMessage(o)), '_blank', 'noopener');
   CODE = orderCode(); // el próximo pedido lleva otro código
   updateOrder();
 });
+
+// ===== PAGO CON WEBPAY (Transbank) =====
+// El servidor (api/webpay/crear.js) calcula el total con los precios del catálogo y abre la transacción;
+// aquí solo se manda al cliente al formulario de Webpay. Al volver, pago.html muestra el resultado.
+async function pagarWebpay(o) {
+  const err = $('#formError');
+  const lines = bagLines();
+  const problema = !lines.length ? 'Para pagar con tarjeta agrega productos del catálogo (los encargos se cotizan por WhatsApp).'
+    : aCotizar() ? 'Hay productos sin precio en tu bolsa: quítalos o envía el pedido por WhatsApp.'
+    : lines.some((l) => l.sinTalla || (l.p.sizes.length && !l.size)) ? 'Revisa la talla de los productos de tu bolsa.'
+    : o.encargo ? 'Los encargos se cotizan por WhatsApp: borra el encargo o elige otro medio de pago.'
+    : '';
+  if (problema) { err.textContent = problema; err.hidden = false; return; }
+
+  const send = $('#bagSend');
+  send.disabled = true;
+  send.querySelector('span').textContent = 'Conectando con Webpay…';
+  try {
+    const res = await fetch('/api/webpay/crear', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: lines.map((l) => ({ id: l.id, size: l.size, qty: l.qty })) }),
+    });
+    const t = await res.json().catch(() => ({}));
+    if (!res.ok || !t.url || !t.token) throw new Error(t.error || 'No pudimos conectar con Webpay.');
+    // el detalle del pedido queda en este navegador para armar el mensaje de WhatsApp al volver
+    try { sessionStorage.setItem('kvPago', JSON.stringify({ orden: t.orden, mensaje: buildMessage(o) })); } catch (e) {}
+    const f = document.createElement('form');
+    f.method = 'POST';
+    f.action = t.url;
+    f.innerHTML = `<input type="hidden" name="token_ws" value="${esc(t.token)}">`;
+    document.body.appendChild(f);
+    f.submit();
+  } catch (e) {
+    err.textContent = e.message;
+    err.hidden = false;
+    send.disabled = false;
+    updateOrder();
+  }
+}
 
 // ===== EVENTOS GENERALES =====
 document.addEventListener('click', (e) => {
