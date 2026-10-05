@@ -1,0 +1,15 @@
+{
+  "nombre": "Spider 4K",
+  "precio": 20000,
+  "foto": "/img/productos/4K.webp",
+  "fotos": [],
+  "descripcion": "Hola",
+  "tallas": [
+    "40",
+    "50"
+  ],
+  "etiqueta": "",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}
